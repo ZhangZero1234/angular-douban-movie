@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<script src="app/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="app/bower_components/angular/angular.js"></script>
+	<script src="app/bower_components/angular-route/angular-route.js"></script>
+  <script src="app/bower_components/angular-cookies/angular-cookies.js"></script>
+	<script src="app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<style>
+		a{
+			color: #444;
+		}
+		/*.test{
+			border:1px solid #ccc;
+			height:200px;
+		}*/
+		.left_slide{
+			list-style: none;
+		}
+		.left_slide li{
+			width: 100%;
+			line-height: 40px;
+
+		}
+		.left_slide li a{
+			text-decoration: none;
+			display: inline-block;
+			width: 100%;
+			font-size: 20px;
+			border-bottom:1px solid #ddd; 
+		}
+		.activing{
+			transition-duration: 1s;
+			padding-left: 20px;
+			background-color: #337ab7;
+			color:#fff;
+		}
+		.left_slide li a:hover {
+			transition-duration: 1s;
+			padding-left: 20px;
+			background-color: #337ab7;
+			color:#fff;
+		}
+		a:focus{
+			color:#fff;
+		}
+		.page-header,.page-header h1{
+			margin-top: 0px;
+		}
+		.spinner {
+  margin: 200px auto;
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+ 
+.container1 > div, .container2 > div, .container3 > div {
+  width: 12px;
+  height: 12px;
+  background-color: #333;
+ 
+  border-radius: 100%;
+  position: absolute;
+  -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+  animation: bouncedelay 1.2s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.spinner .spinner-container {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+}
+ 
+.container2 {
+  -webkit-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+ 
+.container3 {
+  -webkit-transform: rotateZ(90deg);
+  transform: rotateZ(90deg);
+}
+ 
+.circle1 { top: 0; left: 0; }
+.circle2 { top: 0; right: 0; }
+.circle3 { right: 0; bottom: 0; }
+.circle4 { left: 0; bottom: 0; }
+ 
+.container2 .circle1 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.container3 .circle1 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.container1 .circle2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.container2 .circle2 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+ 
+.container3 .circle2 {
+  -webkit-animation-delay: -0.7s;
+  animation-delay: -0.7s;
+}
+ 
+.container1 .circle3 {
+  -webkit-animation-delay: -0.6s;
+  animation-delay: -0.6s;
+}
+ 
+.container2 .circle3 {
+  -webkit-animation-delay: -0.5s;
+  animation-delay: -0.5s;
+}
+ 
+.container3 .circle3 {
+  -webkit-animation-delay: -0.4s;
+  animation-delay: -0.4s;
+}
+ 
+.container1 .circle4 {
+  -webkit-animation-delay: -0.3s;
+  animation-delay: -0.3s;
+}
+ 
+.container2 .circle4 {
+  -webkit-animation-delay: -0.2s;
+  animation-delay: -0.2s;
+}
+ 
+.container3 .circle4 {
+  -webkit-animation-delay: -0.1s;
+  animation-delay: -0.1s;
+}
+ 
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+	</style>
+</head>
+<body ng-controller="myCtrl">
+	<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">豆瓣电影</a>
+    </div>
+	
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li ng-class={active:urlType=="in_theaters"}><a data-get={{urlType}} href="#!/in_theaters/1">正在热映</a></li>
+        <li ng-class={active:urlType=='coming_soon'}><a href="#!/coming_soon/1">即将上映</a></li>
+        <li ng-class={active:urlType=='top250'}><a href="#!/top250/1">TOP250</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" ng-controller="formSubmit" ng-submit="search()">
+        <div class="form-group">
+          <input ng-model="inputValue" type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="button" ng-click="search()" class="btn btn-default">Submit</button>
+      </form>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<div class="container-fluid">
+	<ul class="left_slide col-lg-2">
+		<li><a ng-class={activing:urlType=="in_theaters"} href="#!/in_theaters/1" >正在热映</a></li>
+		<li><a ng-class={activing:urlType=="coming_soon"} href="#!/coming_soon/1" >即将上映</a></li>
+		<li><a ng-class={activing:urlType=="top250"} href="#!/top250/1" >TOP250</a></li>
+	</ul>
+	<div class="test col-lg-10">
+		<div class="ng-view">
+		</div>
+	</div>
+</div>
+<script src="jsonp/controller.js"></script>
+
+<!-- <script src="in_thearters/controller.js"></script>
+<script src="coming_soon/controller.js"></script>
+<script src="Top250/controller.js"></script> -->
+<script>
+ 	var app = angular.module("myApp",['ngCookies','ngRoute','movie_list_module']);
+ 	app.config(['$routeProvider',function($routeProvider){
+ 		$routeProvider.otherwise({
+ 			"redirectTo":"/in_theaters/1"
+ 		});
+ 	}]);
+ 	app.controller("myCtrl",["$scope",function($scope){
+ 	}]).controller("formSubmit",["$cookies","$scope","$route",function($cookies,$scope,$route){
+    $scope.search = function(){
+      // console.log($scope.inputValue);
+      $route.updateParams({type:"search",query:$scope.inputValue});
+      // $route.updateParams({query:$scope.inputValue});
+      // $cookies.putObject("input",{
+      //   input:$scope.inputValue
+      // });
+      // console.log($cookies.getObject("input").input);
+    }
+  }]);
+</script>
+<script src="movie_list/controller.js"></script>
+</body>
+</html>

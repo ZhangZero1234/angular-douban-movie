@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="app/bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<script src="app/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="app/bower_components/angular/angular.js"></script>
+	<script src="app/bower_components/angular-route/angular-route.js"></script>
+	<script src="app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+	<li ng-repeat="i in arr">{{i}}</li>
+	<script src="jsonp/controller.js"></script>
+<script src="in_thearters/controller.js"></script>
+<script src="coming_soon/controller.js"></script>
+<script src="Top250/controller.js"></script>
+<script>
+ 	var app = angular.module("myApp",['ngRoute']);
+ 	app.config(['$routeProvider',function($routeProvider){
+ 		$routeProvider.otherwise({
+ 			"redirectTo":"/in_thearters"
+ 		});
+ 	}]);
+ 	app.controller("myCtrl",["$scope",function($scope){
+ 		$scope.arr=[1,2,3,4];
+ 	}]);
+</script>
+
+</body>
+</html>
